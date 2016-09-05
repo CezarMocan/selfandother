@@ -39,7 +39,7 @@ Meteor.startup(() => {
 			index++;
 		}
 	}), 1000)
-	//MessageQueue.insert(myjson[0]);
+
 	//console.log('message queue')
 	//console.log(<)
 
