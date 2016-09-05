@@ -40,9 +40,6 @@ Meteor.startup(() => {
 		}
 	}), 1000)
 
-	//console.log('message queue')
-	//console.log(<)
-
 	//MessageQueue = new Mongo.Collection("MessageQueue");
 	/*
 	Meteor.publish('messagequeue', function() {
