@@ -3,8 +3,6 @@ import {MessageQueue} from '../imports/api/MessageQueue.js'
 import {ServerTime} from '../imports/api/ServerTime.js'
 
 function getTimestamp(stringTime) {
-	//console.log(Date.parse(stringTime) / 1000)
-	//console.log(stringTime)
 	return (Date.parse(stringTime) / 1000)
 }
 
@@ -43,9 +41,9 @@ Meteor.startup(() => {
 		}
 
 		let currMessageListId = MessageQueue.find({}).fetch()[0]._id
-		console.log('Sending: ', currSecondMessages)
+		// console.log('Sending: ', currSecondMessages)
 		MessageQueue.update(currMessageListId, {
 			messages: currSecondMessages
 		})
-	}), 50)
+	}), 1000)
 });
