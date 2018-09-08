@@ -15,17 +15,19 @@ Meteor.startup(() => {
 	var serverTimestamp = 1388160704;
 
 	MessageQueue.remove({})
+	MessageQueue.insert({ messages: [] })
 	Meteor.publish("MessageQueue", function () {
     	return MessageQueue.find();
 	});
 
 	ServerTime.remove({})
-	ServerTime.insert({time: serverTimestamp})
+	ServerTime.insert({ time: serverTimestamp })
 	Meteor.publish("ServerTime", function () {
     	return ServerTime.find();
 	});
 
 	var index = 0;
+	var lastSecondIndex = 0;
 
 	setInterval(Meteor.bindEnvironment(function() {
 		serverTimestamp = serverTimestamp + 1;
@@ -34,17 +36,16 @@ Meteor.startup(() => {
 			time: serverTimestamp
 		})
 
+		let currSecondMessages = []
 		while (getTimestamp(messages[index].created_time) <= serverTimestamp && index < messages.length) {
-			MessageQueue.insert(messages[index])
+			currSecondMessages.push(messages[index])
 			index++;
 		}
-	}), 1000)
 
-	//MessageQueue = new Mongo.Collection("MessageQueue");
-	/*
-	Meteor.publish('messagequeue', function() {
-		return myjson[0]
-	})
-	*/
-  // code to run on server at startup
+		let currMessageListId = MessageQueue.find({}).fetch()[0]._id
+		console.log('Sending: ', currSecondMessages)
+		MessageQueue.update(currMessageListId, {
+			messages: currSecondMessages
+		})
+	}), 50)
 });

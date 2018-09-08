@@ -21,13 +21,14 @@ export default class Message extends Component {
 	animateNextLetter(messageObj, index) {
 		if (index == messageObj.message.length) {
 			setTimeout(() => {
-				this.setState({
-					currentMessage: '',
-					isRendering: false
-				})
+				this.setState({ currentMessage: '' })
+
 				if (this.animationQueue.length > 0) {
 					this.animateNextLetter(this.animationQueue.shift(), 0)
+				} else {
+					this.setState({ isRendering: false })
 				}
+
 			}, 4000);
 
 			return;
@@ -52,29 +53,16 @@ export default class Message extends Component {
 	  })
 	}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		if (this.state.isRendering == true && nextProps.queue.length != this.props.queue.length)
-			return false;
-
-		/*
-		if (nextProps.lastMessage == this.props.lastMessage)
-			return false;
-		*/
-
-		return true;
-	}
-
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.queue.length == 0 || nextProps.lastMessage == this.props.lastMessage)
-			return;
+		if (nextProps.currMessages.length == 0) return
+		// console.log('componentWillReceiveProps | rendering: ', this.state.isRendering, ' animationQueue: ', this.animationQueue, ' nextProps: ', nextProps)
+		// Add messages from current second to the queue
+		nextProps.currMessages.forEach(m => this.animationQueue.push(m))
 
-		if (this.state.isRendering) {
-			this.animationQueue.push(nextProps.queue[nextProps.queue.length - 1])
-		} else {
-			let messageObj = nextProps.queue[nextProps.queue.length - 1]
-			this.animateNextLetter(messageObj, 0);
-		}
-		//nextProps.queue.remove({});
+		// If we're not already animating messages,
+		// start animating first one in the queue.
+		if (!this.state.isRendering)
+			this.animateNextLetter(this.animationQueue.shift(), 0)
 	}
 
 	componentDidMount() {
@@ -83,10 +71,10 @@ export default class Message extends Component {
 			message: ''
 		}
 
-		if (this.props.queue.length == 0)
+		if (this.props.currMessages.length == 0)
 			return;
 
-		messageObj = this.props.queue[this.props.queue.length - 1]
+		messageObj = this.props.currMessages[this.props.currMessages.length - 1]
 		this.animateNextLetter(messageObj, 0);
 	}
 
@@ -101,8 +89,5 @@ export default class Message extends Component {
 }
 
 Message.propTypes = {
-  // This component gets the task to display through a React prop.
-  // We can use propTypes to indicate it is required
-  queue: PropTypes.array.isRequired,
-  lastMessage: PropTypes.string.isRequired
+  currMessages: PropTypes.array.isRequired,
 };
