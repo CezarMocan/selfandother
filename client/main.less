@@ -9,6 +9,14 @@
 	font-family: "Inconsolata";
 	overflow: hidden;
 
+	.link {
+		cursor: pointer;
+		color: @purple;
+		&:hover {
+			color: @orange;
+		}
+	}
+
 	.orange {
 		color: @orange;
 	}
@@ -19,19 +27,41 @@
 
 	.about-container {
 		position: absolute;
-		height: 100%;
-		width: @aboutContainerSize;
+		background-color: white;
+		color: black;
+		height: 100vh;
+		width: 100vw;
 		left: 0;
 		top: 0;
+		transition: opacity 0.5s;
+		font-family: Helvetica;
+		font-size: 18pt;
+		.text-container {
+			width: 600px;
+			max-width: 100vw;
+			padding: 10px;
+		}
 	}
 
 	.footer {
 		font-size: 11pt;
 		line-height: 12.8pt;
-		width: 400px;
 		position: absolute;
-    	bottom: 35px;
-    	left: @mainContainerLeft;
+    bottom: 25px;
+		left: 0;
+		right: 0;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+
+	.about-link-container {
+		font-size: 11pt;
+		line-height: 12.8pt;
+		position: fixed;
+    bottom: 25px;
+		right: 20px;
+		text-align: center;		
 	}
 
 	.message-container {
@@ -40,6 +70,12 @@
 		top: 40vh;
 		font-size: 11pt;
 		line-height: 12.8pt;
+		left: 0;
+		right: 0;
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 350px;
+		text-align: center;
 
 		.tiny {
 			font-size: 9pt;
@@ -56,7 +92,6 @@
 			}
 			font-size: 11pt;
 			line-height: 12.8pt;
-			width: 400px;
 		}
 
 		.cursor {
