@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-
+import classNames from 'classnames/bind';
 import Message from './Message.jsx';
 import {MessageQueue} from '../api/MessageQueue.js';
 import {ServerTime} from '../api/ServerTime.js';
@@ -60,7 +60,7 @@ class App extends Component {
         </div>
         <About onShow={aboutOpen}/>
         <div className="about-link-container">
-          <span className="link" onClick={this.onClick}>{aboutOpen ? 'close' : 'about'}</span>
+          <span className={classNames('link', {'inverted': aboutOpen})} onClick={this.onClick}>{aboutOpen ? 'close' : 'about'}</span>
         </div>
       </div>
     );
