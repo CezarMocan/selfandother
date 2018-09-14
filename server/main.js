@@ -10,7 +10,7 @@ Meteor.startup(() => {
 	var myjson = {};
 	messages = JSON.parse(Assets.getText("data/fullData.json"));
 
-	var serverTimestamp = 1388160704;
+	var serverTimestamp = ServerTime.find({}).fetch()[0].time;
 
 	MessageQueue.remove({})
 	MessageQueue.insert({ messages: [] })
